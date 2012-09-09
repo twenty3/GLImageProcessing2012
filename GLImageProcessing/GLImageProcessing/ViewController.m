@@ -18,6 +18,9 @@ enum {
     UNIFORM_AMOUNT_SCALAR,
         // identifies a uniform we will use to pass a
         // floating point 'scalar' value to various shaders
+    UNIFORM_MVP_MATRIX,
+        // indentifies a uniform we will pass to the
+        // vertex shader to transform from model to view space
     NUM_UNIFORMS
 };
 
@@ -49,9 +52,8 @@ GLfloat gQuadVertexData[] =
 {
     GLuint _program;
     
-    GLKMatrix4 _modelViewProjectionMatrix;
-    GLKMatrix3 _normalMatrix;
-    
+    GLKMatrix4 _mvpMatrix;
+        
     GLuint _vertexArray;
     GLuint _vertexBuffer;
 }
@@ -140,6 +142,8 @@ GLfloat gQuadVertexData[] =
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 16, BUFFER_OFFSET(8));
     
     glBindVertexArrayOES(0);
+    
+    _mvpMatrix = GLKMatrix4Identity;
 }
 
 - (void)tearDownGL
@@ -206,12 +210,16 @@ GLfloat gQuadVertexData[] =
     glBindTexture(GL_TEXTURE_2D, self.textureInfo.name);
     
     glUseProgram(_program);
-
+    
     // set the sampler uniform value to the texture unit # to sample from
     glUniform1i(uniforms[UNIFORM_SOURCE_TEXTURE], 0);
     
     // Set the scalar amount based on the current slider value
     glUniform1f(uniforms[UNIFORM_AMOUNT_SCALAR], self.slider.value);
+    
+    // Set the transform matrix
+    
+    glUniformMatrix4fv(uniforms[UNIFORM_MVP_MATRIX], 1, 0, _mvpMatrix.m);
     
     // Render
     
@@ -243,6 +251,9 @@ GLfloat gQuadVertexData[] =
     // establish the viewport coordinates to match the size of the buffer;
     glViewport(0, 0, size.width, size.height);
     
+    // change the mvp matrix to invert the rendering
+    _mvpMatrix = GLKMatrix4Scale(GLKMatrix4Identity, 1.0, -1.0, 1.0);
+    
     // draw into the framebuffer
     GLKView *view = (GLKView *)self.view;
     [self glkView:view drawInRect:view.bounds];
@@ -263,9 +274,13 @@ GLfloat gQuadVertexData[] =
     
     glDeleteFramebuffers(1, &framebuffer);
     glDeleteRenderbuffers(1, &colorRenderbuffer);
+
+    // restore the mvp matrix
+    _mvpMatrix = GLKMatrix4Identity;
     
     // restore the view's normal framebuffer
     [view bindDrawable];
+
     
     return image;
 }
@@ -342,7 +357,9 @@ GLfloat gQuadVertexData[] =
 
     uniforms[UNIFORM_SOURCE_TEXTURE] = glGetUniformLocation(_program, "sourceTexture");
     uniforms[UNIFORM_AMOUNT_SCALAR] =  glGetUniformLocation(_program, "amount");
+    uniforms[UNIFORM_MVP_MATRIX] =  glGetUniformLocation(_program, "mvpMatrix");
 
+    
     // Release vertex and fragment shaders.
     if (vertShader) {
         glDetachShader(_program, vertShader);
