@@ -22,6 +22,8 @@
 		01ECCF5F15FC74E300C074D2 /* source_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF5E15FC74E300C074D2 /* source_image.jpg */; };
 		01ECCF6615FC7B3400C074D2 /* GrayscaleShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF6515FC7B3400C074D2 /* GrayscaleShader.fsh */; };
 		01ECCF6715FC7C1200C074D2 /* GrayscaleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF6515FC7B3400C074D2 /* GrayscaleShader.fsh */; };
+		01ECCF6D15FC7D4500C074D2 /* SepiaShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */; };
+		01ECCF6E15FC7D6800C074D2 /* SepiaShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,7 @@
 		0183801515FC2D59001B5DDE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController.xib; sourceTree = "<group>"; };
 		01ECCF5E15FC74E300C074D2 /* source_image.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = source_image.jpg; sourceTree = "<group>"; };
 		01ECCF6515FC7B3400C074D2 /* GrayscaleShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = GrayscaleShader.fsh; path = Shaders/GrayscaleShader.fsh; sourceTree = "<group>"; };
+		01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SepiaShader.fsh; path = Shaders/SepiaShader.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +123,7 @@
 		0183801C15FC37F2001B5DDE /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */,
 				01ECCF6515FC7B3400C074D2 /* GrayscaleShader.fsh */,
 				0183800D15FC2D59001B5DDE /* Shader.fsh */,
 				0183800F15FC2D59001B5DDE /* Shader.vsh */,
@@ -178,6 +182,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01ECCF6E15FC7D6800C074D2 /* SepiaShader.fsh in Resources */,
 				01ECCF6715FC7C1200C074D2 /* GrayscaleShader.fsh in Resources */,
 				0183800615FC2D59001B5DDE /* InfoPlist.strings in Resources */,
 				0183800E15FC2D59001B5DDE /* Shader.fsh in Resources */,
@@ -198,6 +203,7 @@
 				0183800C15FC2D59001B5DDE /* AppDelegate.m in Sources */,
 				0183801315FC2D59001B5DDE /* ViewController.m in Sources */,
 				01ECCF6615FC7B3400C074D2 /* GrayscaleShader.fsh in Sources */,
+				01ECCF6D15FC7D4500C074D2 /* SepiaShader.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
