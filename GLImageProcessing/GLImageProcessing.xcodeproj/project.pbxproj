@@ -20,17 +20,11 @@
 		0183801315FC2D59001B5DDE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0183801215FC2D59001B5DDE /* ViewController.m */; };
 		0183801615FC2D59001B5DDE /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0183801415FC2D59001B5DDE /* ViewController.xib */; };
 		01ECCF5F15FC74E300C074D2 /* source_image.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF5E15FC74E300C074D2 /* source_image.jpg */; };
-		01ECCF6615FC7B3400C074D2 /* GrayscaleShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF6515FC7B3400C074D2 /* GrayscaleShader.fsh */; };
 		01ECCF6715FC7C1200C074D2 /* GrayscaleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF6515FC7B3400C074D2 /* GrayscaleShader.fsh */; };
-		01ECCF6D15FC7D4500C074D2 /* SepiaShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */; };
 		01ECCF6E15FC7D6800C074D2 /* SepiaShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */; };
-		01ECCF7415FC7E5C00C074D2 /* BrightnessShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF7315FC7E5C00C074D2 /* BrightnessShader.fsh */; };
 		01ECCF7515FC7F6200C074D2 /* BrightnessShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF7315FC7E5C00C074D2 /* BrightnessShader.fsh */; };
-		01ECCF8415FC87FA00C074D2 /* SaturationShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF8315FC87FA00C074D2 /* SaturationShader.fsh */; };
 		01ECCF8515FC885F00C074D2 /* SaturationShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF8315FC87FA00C074D2 /* SaturationShader.fsh */; };
-		01ECCF8B15FC8A9B00C074D2 /* RippleShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF8A15FC8A9B00C074D2 /* RippleShader.fsh */; };
 		01ECCF8C15FC8AA700C074D2 /* RippleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF8A15FC8A9B00C074D2 /* RippleShader.fsh */; };
-		01ECCF9215FC8BB300C074D2 /* VignetteShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF9115FC8BB300C074D2 /* VignetteShader.fsh */; };
 		01ECCF9315FC8C3100C074D2 /* VignetteShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF9115FC8BB300C074D2 /* VignetteShader.fsh */; };
 /* End PBXBuildFile section */
 
@@ -222,12 +216,6 @@
 				0183800815FC2D59001B5DDE /* main.m in Sources */,
 				0183800C15FC2D59001B5DDE /* AppDelegate.m in Sources */,
 				0183801315FC2D59001B5DDE /* ViewController.m in Sources */,
-				01ECCF6615FC7B3400C074D2 /* GrayscaleShader.fsh in Sources */,
-				01ECCF6D15FC7D4500C074D2 /* SepiaShader.fsh in Sources */,
-				01ECCF7415FC7E5C00C074D2 /* BrightnessShader.fsh in Sources */,
-				01ECCF8415FC87FA00C074D2 /* SaturationShader.fsh in Sources */,
-				01ECCF8B15FC8A9B00C074D2 /* RippleShader.fsh in Sources */,
-				01ECCF9215FC8BB300C074D2 /* VignetteShader.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

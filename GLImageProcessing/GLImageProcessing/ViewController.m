@@ -180,9 +180,14 @@ GLfloat gQuadVertexData[] =
 
 - (void)viewTapped:(id)sender
 {
-    GLKView *view = (GLKView *)self.view;
-    UIImage* image = [view snapshot];
+    // We'll double the size of the veiw just to demonstrate how it works. On a Retina device this will result in scaling the content larger than the original 640 x 960 iamge
+    
+    GLsizei width = self.view.bounds.size.width * self.view.contentScaleFactor * 2.0;
+    GLsizei height = self.view.bounds.size.height * self.view.contentScaleFactor * 2.0;
+    UIImage* image = [self imageByRenderingViewAtSize:(CGSize){width, height}];
     UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
+    UIAlertView* view = [[UIAlertView alloc] initWithTitle:@"Image Saved" message:@"Processed image has been saved to the Camera Roll in the Photo Library" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [view show];
 }
 
 #pragma mark - GLKView Delegate
@@ -213,6 +218,70 @@ GLfloat gQuadVertexData[] =
     // This causes GL to draw our scene with the current state- including the vertices and color attributes we have supplied to the state above. The drawing is raterized into the current framebuffer
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
+
+
+#pragma mark - Offscreen rendering
+
+- (UIImage*)imageByRenderingViewAtSize:(CGSize)size;
+{
+    // Explicitly make a new Framebuffer so there is control over the size of the final rendered image. If the source image is smaller than the destination framebuffer, scaling will occur, which could degrade image quality. This techinque is useful when the original image is larger than the screen size and you want to maintain that resolution. Note that the device HW limits the renderBuffer size, just like the maxium texture size. On latest generation iOS Devices the limit is 2048 x 2048 (4096 x 4096 for iPad 2 & 3). On older devices the limit is 1024 x 1024.
+    
+    GLuint framebuffer;
+    glGenFramebuffers(1, &framebuffer);
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer);
+    
+    GLuint colorRenderbuffer;
+    glGenRenderbuffers(1, &colorRenderbuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8_OES, size.width, size.height);
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
+    
+    GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
+    if(status != GL_FRAMEBUFFER_COMPLETE)
+        NSLog(@"failed to make complete framebuffer object %x", status);
+    
+    // establish the viewport coordinates to match the size of the buffer;
+    glViewport(0, 0, size.width, size.height);
+    
+    // draw into the framebuffer
+    GLKView *view = (GLKView *)self.view;
+    [self glkView:view drawInRect:view.bounds];
+    
+    // Create a Core Graphics bitmap context
+    CGContextRef context = [self newBitmapContextForSize:size];
+    CGContextClearRect(context, (CGRect){0.0, 0.0, size.width, size.height});
+     
+    // copy the rendered pixels from the GL Framebuffer to the Core Graphics bitmap
+    void* pixelData = CGBitmapContextGetData(context);
+    glReadPixels(0, 0, size.width, size.height, GL_RGBA, GL_UNSIGNED_BYTE, pixelData);
+     
+    CGImageRef contextImage = CGBitmapContextCreateImage(context);
+    CGContextRelease(context);
+        
+    UIImage* image = [[UIImage alloc] initWithCGImage:contextImage];
+    CGImageRelease(contextImage);
+    
+    glDeleteFramebuffers(1, &framebuffer);
+    glDeleteRenderbuffers(1, &colorRenderbuffer);
+    
+    // restore the view's normal framebuffer
+    [view bindDrawable];
+    
+    return image;
+}
+
+- (CGContextRef) newBitmapContextForSize:(CGSize)size
+{
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+	CGBitmapInfo	bitmapInfo = kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big;
+	int				rowByteWidth = size.width * 4;
+	
+	CGContextRef context = CGBitmapContextCreate(NULL, size.width, size.height, 8, rowByteWidth, colorSpace, bitmapInfo);
+    CGColorSpaceRelease( colorSpace );
+    
+    return context;
+}
+
 
 #pragma mark -  OpenGL ES 2 shader compilation
 
