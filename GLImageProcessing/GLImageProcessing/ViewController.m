@@ -86,6 +86,9 @@ GLfloat gQuadVertexData[] =
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     view.delegate = self;
     
+    UITapGestureRecognizer* tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
+    [self.view addGestureRecognizer:tapRecognizer];
+    
     [self setupGL];
 }
 
@@ -173,6 +176,13 @@ GLfloat gQuadVertexData[] =
 - (IBAction)sliderValueChanged:(id)sender
 {
     [self.view setNeedsDisplay];
+}
+
+- (void)viewTapped:(id)sender
+{
+    GLKView *view = (GLKView *)self.view;
+    UIImage* image = [view snapshot];
+    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
 }
 
 #pragma mark - GLKView Delegate
