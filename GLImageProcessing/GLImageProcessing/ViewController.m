@@ -15,6 +15,9 @@ enum {
     UNIFORM_SOURCE_TEXTURE,
         // identifies the uniform shader var that will
         // be the texture sampler for our source image
+    UNIFORM_AMOUNT_SCALAR,
+        // identifies a uniform we will use to pass a
+        // floating point 'scalar' value to various shaders
     NUM_UNIFORMS
 };
 
@@ -54,6 +57,7 @@ GLfloat gQuadVertexData[] =
 }
 @property (strong, nonatomic) EAGLContext *context;
 @property (strong, nonatomic) GLKTextureInfo* textureInfo;
+@property (weak, nonatomic) IBOutlet UISlider *slider;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -65,6 +69,7 @@ GLfloat gQuadVertexData[] =
 @end
 
 @implementation ViewController
+@synthesize slider = _slider;
 
 - (void)viewDidLoad
 {
@@ -163,6 +168,13 @@ GLfloat gQuadVertexData[] =
     }
 }
 
+#pragma mark - Actions
+
+- (IBAction)sliderValueChanged:(id)sender
+{
+    [self.view setNeedsDisplay];
+}
+
 #pragma mark - GLKView Delegate
 
 
@@ -178,12 +190,16 @@ GLfloat gQuadVertexData[] =
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, self.textureInfo.name);
     
+    glUseProgram(_program);
+
     // set the sampler uniform value to the texture unit # to sample from
     glUniform1i(uniforms[UNIFORM_SOURCE_TEXTURE], 0);
     
+    // Set the scalar amount based on the current slider value
+    glUniform1f(uniforms[UNIFORM_AMOUNT_SCALAR], self.slider.value);
+    
     // Render
-    glUseProgram(_program);
-        
+    
     // This causes GL to draw our scene with the current state- including the vertices and color attributes we have supplied to the state above. The drawing is raterized into the current framebuffer
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
@@ -206,7 +222,7 @@ GLfloat gQuadVertexData[] =
     }
     
     // Create and compile fragment shader.
-    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"SepiaShader" ofType:@"fsh"];
+    fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"BrightnessShader" ofType:@"fsh"];
     if (![self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:fragShaderPathname]) {
         NSLog(@"Failed to compile fragment shader");
         return NO;
@@ -244,8 +260,10 @@ GLfloat gQuadVertexData[] =
     }
     
     // Get Uniform locations from the linked programs
+
     uniforms[UNIFORM_SOURCE_TEXTURE] = glGetUniformLocation(_program, "sourceTexture");
-    
+    uniforms[UNIFORM_AMOUNT_SCALAR] =  glGetUniformLocation(_program, "amount");
+
     // Release vertex and fragment shaders.
     if (vertShader) {
         glDetachShader(_program, vertShader);
@@ -339,4 +357,8 @@ GLfloat gQuadVertexData[] =
     return YES;
 }
 
+- (void)viewDidUnload {
+    [self setSlider:nil];
+    [super viewDidUnload];
+}
 @end
