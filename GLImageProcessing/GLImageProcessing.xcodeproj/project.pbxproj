@@ -28,6 +28,8 @@
 		01ECCF7515FC7F6200C074D2 /* BrightnessShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF7315FC7E5C00C074D2 /* BrightnessShader.fsh */; };
 		01ECCF8415FC87FA00C074D2 /* SaturationShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF8315FC87FA00C074D2 /* SaturationShader.fsh */; };
 		01ECCF8515FC885F00C074D2 /* SaturationShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF8315FC87FA00C074D2 /* SaturationShader.fsh */; };
+		01ECCF8B15FC8A9B00C074D2 /* RippleShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = 01ECCF8A15FC8A9B00C074D2 /* RippleShader.fsh */; };
+		01ECCF8C15FC8AA700C074D2 /* RippleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 01ECCF8A15FC8A9B00C074D2 /* RippleShader.fsh */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +55,7 @@
 		01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SepiaShader.fsh; path = Shaders/SepiaShader.fsh; sourceTree = "<group>"; };
 		01ECCF7315FC7E5C00C074D2 /* BrightnessShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = BrightnessShader.fsh; path = Shaders/BrightnessShader.fsh; sourceTree = "<group>"; };
 		01ECCF8315FC87FA00C074D2 /* SaturationShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SaturationShader.fsh; path = Shaders/SaturationShader.fsh; sourceTree = "<group>"; };
+		01ECCF8A15FC8A9B00C074D2 /* RippleShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = RippleShader.fsh; path = Shaders/RippleShader.fsh; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +132,7 @@
 		0183801C15FC37F2001B5DDE /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				01ECCF8A15FC8A9B00C074D2 /* RippleShader.fsh */,
 				01ECCF8315FC87FA00C074D2 /* SaturationShader.fsh */,
 				01ECCF7315FC7E5C00C074D2 /* BrightnessShader.fsh */,
 				01ECCF6C15FC7D4500C074D2 /* SepiaShader.fsh */,
@@ -190,6 +194,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01ECCF8C15FC8AA700C074D2 /* RippleShader.fsh in Resources */,
 				01ECCF8515FC885F00C074D2 /* SaturationShader.fsh in Resources */,
 				01ECCF7515FC7F6200C074D2 /* BrightnessShader.fsh in Resources */,
 				01ECCF6E15FC7D6800C074D2 /* SepiaShader.fsh in Resources */,
@@ -216,6 +221,7 @@
 				01ECCF6D15FC7D4500C074D2 /* SepiaShader.fsh in Sources */,
 				01ECCF7415FC7E5C00C074D2 /* BrightnessShader.fsh in Sources */,
 				01ECCF8415FC87FA00C074D2 /* SaturationShader.fsh in Sources */,
+				01ECCF8B15FC8A9B00C074D2 /* RippleShader.fsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
