@@ -34,10 +34,10 @@ GLfloat gQuadVertexData[] =
 {
     // Data layout for each line below is:
     // X, Y,              // u, v
-    -1.0f, -1.0f,       0.0f, 1.0f,
-    1.0f, -1.0f,        1.0f, 1.0f,
-    -1.0f,  1.0f,       0.0f, 0.0f,
-    1.0f,  1.0f,        1.0f, 0.0f,
+    -1.0f, -1.0f,       0.0f, 0.0f,
+    1.0f, -1.0f,        1.0f, 0.0f,
+    -1.0f,  1.0f,       0.0f, 1.0f,
+    1.0f,  1.0f,        1.0f, 1.0f,
 };
 
 #pragma mark -
@@ -153,7 +153,9 @@ GLfloat gQuadVertexData[] =
 {
     NSError* loadError = nil;
     NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"source_image" ofType:@"jpg"];
-    self.textureInfo = [GLKTextureLoader textureWithContentsOfFile:imagePath options:nil error:&loadError];
+
+    NSDictionary* options = @{GLKTextureLoaderOriginBottomLeft: [NSNumber numberWithBool:YES]};
+    self.textureInfo = [GLKTextureLoader textureWithContentsOfFile:imagePath options:options error:&loadError];
     
     if ( self.textureInfo == nil )
     {
