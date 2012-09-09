@@ -10,18 +10,40 @@
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
+// Uniforms
+enum {
+    UNIFORM_SOURCE_TEXTURE,
+        // identifies the uniform shader var that will
+        // be the texture sampler for our source image
+    NUM_UNIFORMS
+};
+
+
+
+#pragma mark - Statics
+
+
+// This will hold the identifiers for the uniforms we will reference in our shader programs
+static GLint uniforms[NUM_UNIFORMS];
+
+
+// Here we declare the vertices that will make up our quad. For each vertex we also include a
+// texture coordinate. This will make each corner of the source image to a corner on the quad
 
 GLfloat gQuadVertexData[] =
 {
     // Data layout for each line below is:
-    // X, Y,              R, G, B, A
-    -0.5f, -0.33f,        1.0, 1.0, 0.0, 1.0,
-     0.5f, -0.33f,        0.0, 1.0, 1.0, 1.0,
-    -0.5f,  0.33f,        0.0, 0.0, 0.0, 0.0,
-     0.5f,  0.33f,        1.0, 0.0, 1.0, 1.0,
+    // X, Y,              // u, v
+    -1.0f, -1.0f,       0.0f, 1.0f,
+    1.0f, -1.0f,        1.0f, 1.0f,
+    -1.0f,  1.0f,       0.0f, 0.0f,
+    1.0f,  1.0f,        1.0f, 0.0f,
 };
 
-@interface ViewController () <GLKViewDelegate> {
+#pragma mark -
+
+@interface ViewController () <GLKViewDelegate>
+{
     GLuint _program;
     
     GLKMatrix4 _modelViewProjectionMatrix;
@@ -31,6 +53,7 @@ GLfloat gQuadVertexData[] =
     GLuint _vertexBuffer;
 }
 @property (strong, nonatomic) EAGLContext *context;
+@property (strong, nonatomic) GLKTextureInfo* textureInfo;
 
 - (void)setupGL;
 - (void)tearDownGL;
@@ -84,8 +107,6 @@ GLfloat gQuadVertexData[] =
         }
         self.context = nil;
     }
-
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)setupGL
@@ -93,6 +114,8 @@ GLfloat gQuadVertexData[] =
     [EAGLContext setCurrentContext:self.context];
     
     [self loadShaders];
+    
+    [self loadSourceImageTexture];
     
     glEnable(GL_DEPTH_TEST);
     
@@ -104,9 +127,9 @@ GLfloat gQuadVertexData[] =
     glBufferData(GL_ARRAY_BUFFER, sizeof(gQuadVertexData), gQuadVertexData, GL_STATIC_DRAW);
     
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(0));
-    glEnableVertexAttribArray(GLKVertexAttribColor);
-    glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, 24, BUFFER_OFFSET(8));
+    glVertexAttribPointer(GLKVertexAttribPosition, 2, GL_FLOAT, GL_FALSE, 16, BUFFER_OFFSET(0));
+    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, 16, BUFFER_OFFSET(8));
     
     glBindVertexArrayOES(0);
 }
@@ -124,6 +147,20 @@ GLfloat gQuadVertexData[] =
     }
 }
 
+#pragma mark - Source Image Texture
+
+- (void) loadSourceImageTexture
+{
+    NSError* loadError = nil;
+    NSString* imagePath = [[NSBundle mainBundle] pathForResource:@"source_image" ofType:@"jpg"];
+    self.textureInfo = [GLKTextureLoader textureWithContentsOfFile:imagePath options:nil error:&loadError];
+    
+    if ( self.textureInfo == nil )
+    {
+        NSLog(@"Could not load texture: %@", loadError.localizedFailureReason);
+    }
+}
+
 #pragma mark - GLKView Delegate
 
 
@@ -132,7 +169,16 @@ GLfloat gQuadVertexData[] =
     glClearColor(0.65f, 0.65f, 0.65f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    // bind the vertex data that defines our 'scene'
     glBindVertexArrayOES(_vertexArray);
+    
+    // Bind the source texture to a texture unit #
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, self.textureInfo.name);
+    
+    // set the sampler uniform value to the texture unit # to sample from
+    glUniform1i(uniforms[UNIFORM_SOURCE_TEXTURE], 0);
+    
     // Render
     glUseProgram(_program);
         
@@ -173,7 +219,7 @@ GLfloat gQuadVertexData[] =
     // Bind attribute locations.
     // This needs to be done prior to linking.
     glBindAttribLocation(_program, GLKVertexAttribPosition, "position");
-    glBindAttribLocation(_program, GLKVertexAttribColor, "color");
+    glBindAttribLocation(_program, GLKVertexAttribTexCoord0, "textureCoordinate");
     
     // Link program.
     if (![self linkProgram:_program]) {
@@ -194,6 +240,9 @@ GLfloat gQuadVertexData[] =
         
         return NO;
     }
+    
+    // Get Uniform locations from the linked programs
+    uniforms[UNIFORM_SOURCE_TEXTURE] = glGetUniformLocation(_program, "sourceTexture");
     
     // Release vertex and fragment shaders.
     if (vertShader) {
