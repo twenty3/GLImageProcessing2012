@@ -35,25 +35,26 @@
 				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
-					<object class="IBUISlider" id="35423870">
+					<object class="IBUISlider" id="954322529">
 						<reference key="NSNextResponder" ref="184854543"/>
 						<int key="NSvFlags">292</int>
 						<string key="NSFrame">{{18, 418}, {284, 23}}</string>
 						<reference key="NSSuperview" ref="184854543"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<float key="IBUIValue">1</float>
-						<float key="IBUIMaxValue">100</float>
+						<float key="IBUIValue">10</float>
+						<float key="IBUIMaxValue">50</float>
 					</object>
 				</array>
 				<string key="NSFrameSize">{320, 460}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="35423870"/>
+				<reference key="NSNextKeyView" ref="954322529"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">3</int>
 					<bytes key="NSWhite">MQA</bytes>
@@ -79,14 +80,14 @@
 					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">slider</string>
 						<reference key="source" ref="841351856"/>
-						<reference key="destination" ref="35423870"/>
+						<reference key="destination" ref="954322529"/>
 					</object>
 					<int key="connectionID">6</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">sliderValueChanged:</string>
-						<reference key="source" ref="35423870"/>
+						<reference key="source" ref="954322529"/>
 						<reference key="destination" ref="841351856"/>
 						<int key="IBEventType">13</int>
 					</object>
@@ -116,13 +117,13 @@
 						<int key="objectID">2</int>
 						<reference key="object" ref="184854543"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="35423870"/>
+							<reference ref="954322529"/>
 						</array>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
-						<reference key="object" ref="35423870"/>
+						<reference key="object" ref="954322529"/>
 						<reference key="parent" ref="184854543"/>
 					</object>
 				</array>
