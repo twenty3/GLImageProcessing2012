@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#include <OpenGLES/ES2/glext.h>
 
 #define BUFFER_OFFSET(i) ((char *)NULL + (i))
 
